@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Euromilhões</title>
+
+
+<link rel="manifest" href="euromilhoes.json">
+<meta name="theme-color" content="#0044cc">
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body { padding: 20px; background-color: #f8f9fa; }
+.chave {
+  display: inline-block;
+  width: 180px; 
+  margin: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 14px;
+}
+.valores {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.identificacao {
+  font-size: 12px;
+  color: #555;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1 class="mb-4 text-center">Euromilhões</h1>
+
+  <div class="mb-3 row justify-content-center">
+    <label for="numChaves" class="col-auto col-form-label">Número de chaves:</label>
+    <div class="col-auto">
+      <input type="number" id="numChaves" class="form-control" min="1" value="3">
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" onclick="gerar()">Gerar</button>
+    </div>
+  </div>
+
+  <div id="resultados" class="text-center"></div>
+</div>
+
+<script>
+
+function gerarNumeros(qtd, max){
+  let nums = [];
+  while(nums.length < qtd){
+    let n = Math.floor(Math.random()*max)+1;
+    if(!nums.includes(n)) nums.push(n);
+  }
+  return nums.sort((a,b)=>a-b);
+}
+
+
+function gerar(){
+  const resultados = document.getElementById("resultados");
+  resultados.innerHTML = ""; 
+
+  const totalChaves = parseInt(document.getElementById("numChaves").value) || 1;
+
+  for(let i=1; i<=totalChaves; i++){
+    let numeros = gerarNumeros(5,50);
+    let estrelas = gerarNumeros(2,12);
+
+    
+    let divChave = document.createElement("div");
+    divChave.className = "chave";
+
+ 
+    let valoresDiv = document.createElement("div");
+    valoresDiv.className = "valores";
+    valoresDiv.textContent = numeros.join(" ") + " | " + estrelas.join(" ");
+    divChave.appendChild(valoresDiv);
+
+    
+    let idDiv = document.createElement("div");
+    idDiv.className = "identificacao";
+    idDiv.textContent = "Números | Estrelas";
+    divChave.appendChild(idDiv);
+
+    resultados.appendChild(divChave);
+  }
+}
+</script>
+
+</body>
+</html>
